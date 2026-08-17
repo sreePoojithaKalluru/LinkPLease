@@ -1,0 +1,4 @@
+# Used on Render (Python 3.11) — includes async Postgres driver.
+# The Dockerfile uses this file instead of requirements.txt.
+-r requirements.txt
+asyncpg==0.29.0

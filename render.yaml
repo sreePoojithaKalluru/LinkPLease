@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: linkplease
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    # Single worker is REQUIRED for the in-process rate limiter to be correct.
+    # If scaling is ever needed, move rate limiter to Redis and remove this note.
+    envVars:
+      - key: DATABASE_URL
+        # On Render, attach a Postgres database and use its internal connection string.
+        # Format: postgresql+asyncpg://user:pass@host:5432/dbname
+        fromDatabase:
+          name: linkplease-db
+          property: connectionString
+      - key: PSEUDOGRAM_API_URL
+        sync: false   # set manually in Render dashboard
+      - key: PSEUDOGRAM_API_KEY
+        sync: false   # set manually in Render dashboard — keep secret
+      - key: WEBHOOK_SECRET
+        sync: false   # must match the simulator's configured secret
+      - key: MAX_DM_RETRIES
+        value: "5"
+      - key: RECONCILER_INTERVAL_SECONDS
+        value: "10"
+      - key: DM_SENDER_POLL_SECONDS
+        value: "2"
+    healthCheckPath: /health
+
+databases:
+  - name: linkplease-db
+    databaseName: linkplease
+    plan: free
