@@ -20,8 +20,8 @@ class Settings(BaseSettings):
     pseudogram_api_key: str = "changeme"
 
     # ── Webhook signature secret ──────────────────────────────────────────────
-    # Legacy compatibility value; per assignment spec the HMAC secret is the
-    # same as PSEUDOGRAM_API_KEY. Request verification uses that value.
+    # The HMAC-SHA256 secret used to verify X-PseudoGram-Signature.
+    # Must match the value the simulator is configured with.
     webhook_secret: str = "changeme"
 
     # ── Worker tuning ────────────────────────────────────────────────────────

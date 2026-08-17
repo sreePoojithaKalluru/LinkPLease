@@ -38,7 +38,7 @@ async def test_webhook_signature_and_duplicate_handling(client, monkeypatch):
         },
     }
     body = json.dumps(payload).encode()
-    sig = make_sig(settings.pseudogram_api_key, body)
+    sig = make_sig(settings.webhook_secret, body)
 
     # create a rule that matches 'price' (case-insensitive)
     r = await client.post("/rules", json={"keyword": "price", "dm_message": "Hello"})

@@ -2,6 +2,7 @@ services:
   - type: web
     name: linkplease
     runtime: docker
+    plan: free
     dockerfilePath: ./Dockerfile
     # Single worker is REQUIRED for the in-process rate limiter to be correct.
     # If scaling is ever needed, move rate limiter to Redis and remove this note.

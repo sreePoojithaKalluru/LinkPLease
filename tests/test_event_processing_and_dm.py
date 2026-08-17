@@ -25,7 +25,7 @@ async def test_event_processing_creates_dm_attempt(client, monkeypatch):
     # sign and post
     from app.config import settings as cfg
     import hashlib, hmac
-    sig = "sha256=" + hmac.new(cfg.pseudogram_api_key.encode(), json.dumps(body).encode(), hashlib.sha256).hexdigest()
+    sig = "sha256=" + hmac.new(cfg.webhook_secret.encode(), json.dumps(body).encode(), hashlib.sha256).hexdigest()
     resp = await client.post("/webhook", content=json.dumps(body).encode(), headers={"X-PseudoGram-Signature": sig})
     assert resp.status_code == 200
 
@@ -61,7 +61,7 @@ async def test_comment_deleted_cancels_pending(client):
         "event_type": "comment.created",
         "data": {"comment_id": "c3", "post_id": "p1", "user_id": "u99", "text": "bye now"},
     }
-    sig1 = "sha256=" + hmac.new(cfg.pseudogram_api_key.encode(), json.dumps(created).encode(), hashlib.sha256).hexdigest()
+    sig1 = "sha256=" + hmac.new(cfg.webhook_secret.encode(), json.dumps(created).encode(), hashlib.sha256).hexdigest()
     await client.post("/webhook", content=json.dumps(created).encode(), headers={"X-PseudoGram-Signature": sig1})
     await event_processor.process_event("evt-3")
 
@@ -79,7 +79,7 @@ async def test_comment_deleted_cancels_pending(client):
         "event_type": "comment.deleted",
         "data": {"comment_id": comment_id},
     }
-    sig2 = "sha256=" + hmac.new(cfg.pseudogram_api_key.encode(), json.dumps(deleted).encode(), hashlib.sha256).hexdigest()
+    sig2 = "sha256=" + hmac.new(cfg.webhook_secret.encode(), json.dumps(deleted).encode(), hashlib.sha256).hexdigest()
     await client.post("/webhook", content=json.dumps(deleted).encode(), headers={"X-PseudoGram-Signature": sig2})
     await event_processor.process_event("evt-4")
 
