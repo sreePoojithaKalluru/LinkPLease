@@ -1,5 +1,8 @@
 # LinkPlease — Instagram DM Automation Backend
 
+[![CI](https://github.com/sreePoojithaKalluru/LinkPLease/actions/workflows/ci.yml/badge.svg)](https://github.com/sreePoojithaKalluru/LinkPLease/actions/workflows/ci.yml)
+
+
 Production-grade FastAPI backend for the LinkPlease take-home assignment.
 
 ## Stack
